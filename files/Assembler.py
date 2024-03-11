@@ -26,9 +26,14 @@ def i_type(instruction, regi_dict,function3_i,i_instruct):
 
 
     if instruction[0] == "lw":
-
+        instruction[2], temp = instruction[2].split('(')
+        temp=temp[0:-1:]
+        
         t = sextRISB(int(instruction[2]))
-        return t + regi_dict[instruction[3]] + function3_i[instruction[0]] +regi_dict[instruction[1]]+i_instruct[instruction[0]]
+        return t + regi_dict[temp] + function3_i[instruction[0]] +regi_dict[instruction[1]]+i_instruct[instruction[0]]
+
+    t = sextRISB(int(instruction[3]))
+    return t + regi_dict[instruction[2]] + function3_i[instruction[0]] + regi_dict[instruction[1]]+i_instruct[instruction[0]]
 
     t = sextRISB(int(instruction[3]))
     return t + regi_dict[instruction[2]] + function3_i[instruction[0]] + regi_dict[instruction[1]]+i_instruct[instruction[0]]

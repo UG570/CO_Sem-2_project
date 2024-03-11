@@ -1,0 +1,15 @@
+def stype(instruction,regi_dict):
+    register = instruction[1:len(instruction):1]
+    register[1],reg=register[1].split('(')
+    reg=reg[0:-1:1]
+    register.append(reg)
+    t=sextS(int(register[1]))
+    return t[0:7]+regi_dict[register[0]]+regi_dict[register[2]]+"010"+t[7:12]+"0100011"
+def sextS(n):
+    """
+    sgn-extend a 12-bit integer to a 12-bit binary string.
+    >>> sextS(10)
+    '000000001010' uses left shifting
+    """
+    binary_string = bin(n & ((1 << 12) - 1))[2:].zfill(12)
+    return binary_string

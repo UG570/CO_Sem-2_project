@@ -9,7 +9,7 @@ def sextS(n):
     '000000001010' uses left shifting
     """
     binary_string = bin(n & ((1 << 12) - 1))[2:].zfill(12)
-    return binary_string
+    return binary_string
 def sextRISB(n):
    binary_string = bin(n & ((1 << 12) - 1))[2:].zfill(12)
    return binary_string
@@ -26,7 +26,7 @@ def sextB(n):
     binary_string = bin(n & ((1 << 13) - 1))[2:].zfill(13)
     return binary_string
    
-def stype(instruction,regi_dict):
+def s_type(instruction,regi_dict):
     register = instruction[1:len(instruction):1]
     register[1],reg=register[1].split('(')
     reg=reg[0:-1:1]
@@ -67,8 +67,8 @@ def b_type(instruction, counter):
     opcode = "1100011"
     if instruction[3] not in labelAdd: 
         t = sextB(int(instruction[3]))
-        return t[0] + t[2:8] + regi_dict[register[1]] + regi_dict[instruction[1]] + b_instruct[instruction[0]] + t[8:12] + t[1] + opcode
+        return t[0] + t[2:8] + regi_dict[instruction[2]] + regi_dict[instruction[1]] + b_instruct[instruction[0]] + t[8:12] + t[1] + opcode
     else:
-        t = sextB((counter-labeladd[register[2]])*4)
+        t = sextB((counter-labelAdd[instruction[3]])*4)
         return t[0] + t[2:8] + regi_dict[instruction[2]] + regi_dict[instruction[1]] + b_instruct[instruction[0]] + t[8:12] + t[1] + opcode
 

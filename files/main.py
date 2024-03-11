@@ -33,7 +33,7 @@ with open("output.txt", "w") as f:
             f.write(j_type(i))
             f.write("\n")
         elif i[0] in b_instruct:
-            f.write(b_type(i, counter))
+            f.write(b_type(i, counter, labelAdd))
             f.write("\n")
         elif i[0] in s_instruct:
             f.write(s_type(i,regi_dict))

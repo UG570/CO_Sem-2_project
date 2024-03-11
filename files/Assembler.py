@@ -1,7 +1,6 @@
 #Assembler made in python
 # write functions for all types here
 from dict import *
-from main import labelAdd
 def sextS(n):
     """
     sgn-extend a 12-bit integer to a 12-bit binary string.
@@ -64,7 +63,7 @@ def j_type(instruction):
 
 
 
-def b_type(instruction, counter):
+def b_type(instruction, counter, labelAdd):
     opcode = "1100011"
     if instruction[3] not in labelAdd: 
         t = sextB(int(instruction[3]))

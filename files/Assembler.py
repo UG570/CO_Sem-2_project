@@ -59,3 +59,15 @@ def j_type(instruction):
     register = instruction[1::]
     t=sextJ(int(register[1]))
     return t[0]+t[9:20]+t[9]+t[1:8]+regi_dict[register[0]]+"0010111"
+
+
+
+def b_type(instruction, counter):
+    opcode = "1100011"
+    if instruction[3] not in labelAdd: 
+        t = sextB(int(instruction[3]))
+        return t[0] + t[2:8] + regi_dict[register[1]] + regi_dict[register[0]] + b_instruct[instruct] + t[8:12] + t[1] + opcode
+    else:
+        t = sextB((counter-labeladd[register[2]])*4)
+        return t[0] + t[2:8] + regi_dict[register[1]] + regi_dict[register[0]] + b_instruct[instruct] + t[8:12] + t[1] + opcode
+

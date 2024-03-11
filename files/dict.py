@@ -5,14 +5,16 @@ function_7_r={'add':'0000000', 'sub':'0100000', 'sll':'0000000', 'slt':'0000000'
 
 
 i_instruct={'lw':'0000011', 'addi':'0010011', 'sltiu':'0010011', 'jalr':'1100111'}
-func3_i={'lw':'010', 'addi':'000', 'sltiu':'011', 'jalr':'000'}
+function3_i={'lw':'010', 'addi':'000', 'sltiu':'011', 'jalr':'000'}
 
 
 
 s_instruct={'sw':'0100011'}
 
 
+
 b_instruct={'beq':'1100011', 'bne':'1100011', 'blt':'1100011', 'bge':'1100011', 'bltu':'1100011', 'bgeu':'1100011'}
+
 
 
 u_instruct={'lui':'0110111', 'auipc':'0010111'}

@@ -22,3 +22,13 @@ def utype(instruction,regi_dict,u_instruct):
     opcode=u_instruct[instruction[0]]
     t=sextU(int(instruction[2]))
     return t+regi_dict[instruction[1]+opcode
+def i_type(instruction, regi_dict,function3_i,i_instruct):
+
+
+    if instruction[0] == "lw":
+
+        t = sextRISB(int(instruction[2]))
+        return t + regi_dict[instruction[3]] + function3_i[instruction[0]] +regi_dict[instruction[1]]+i_instruct[instruction[0]]
+
+    t = sextRISB(int(instruction[3]))
+    return t + regi_dict[instruction[2]] + function3_i[instruction[0]] + regi_dict[instruction[1]]+i_instruct[instruction[0]]

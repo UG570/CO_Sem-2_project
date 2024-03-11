@@ -1,7 +1,14 @@
 #Assembler made in python
 # write functions for all types here
 from dict import *
-
+def sextS(n):
+    """
+    sgn-extend a 12-bit integer to a 12-bit binary string.
+    >>> sextS(10)
+    '000000001010' uses left shifting
+    """
+    binary_string = bin(n & ((1 << 12) - 1))[2:].zfill(12)
+    return binary_string
 def sextRISB(n):
    binary_string = bin(n & ((1 << 12) - 1))[2:].zfill(12)
    return binary_string
@@ -17,6 +24,14 @@ def sextU(n):
 def sextB(n):
     binary_string = bin(n & ((1 << 13) - 1))[2:].zfill(13)
     return binary_string
+   
+def stype(instruction,regi_dict):
+    register = instruction[1:len(instruction):1]
+    register[1],reg=register[1].split('(')
+    reg=reg[0:-1:1]
+    register.append(reg)
+    t=sextS(int(register[1]))
+    return t[0:7]+regi_dict[register[0]]+regi_dict[register[2]]+"010"+t[7:12]+"0100011"
 
 def r_type(regi_dict,function3_r,function7_r,instruction,r_instruct):
     return function7_r[instruction[0]]+regi_dict[instruction[3]]+regi_dict[instruction[2]]+function3_r[instruction[0]]+regi_dict[instruction[1]]+r_instruct[instruction[0]]

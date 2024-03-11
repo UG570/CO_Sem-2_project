@@ -7,23 +7,23 @@ def sextS(n):
     >>> sextS(10)
     '000000001010' uses left shifting
     """
-    binary_string = bin(n & ((1 << 12) - 1))[2:].zfill(12)
-    return binary_string
+    bs = bin(n & ((1 << 12) - 1))[2:].zfill(12)
+    return bs
 def sextRISB(n):
-   binary_string = bin(n & ((1 << 12) - 1))[2:].zfill(12)
-   return binary_string
+   bs = bin(n & ((1 << 12) - 1))[2:].zfill(12)
+   return bs
 
 def sextJ(n):
-    binary_string = bin(n & ((1 << 21) - 1))[2:].zfill(21)
-    return binary_string
+    bs = bin(n & ((1 << 21) - 1))[2:].zfill(21)
+    return bs
 
 def sextU(n):
-    binary_string = bin(n & ((1 << 20) - 1))[2:].zfill(20)
-    return binary_string
+    bs = bin(n & ((1 << 20) - 1))[2:].zfill(20)
+    return bs
 
 def sextB(n):
-    binary_string = bin(n & ((1 << 13) - 1))[2:].zfill(13)
-    return binary_string
+    bs = bin(n & ((1 << 13) - 1))[2:].zfill(13)
+    return bs
    
 def s_type(instruction,regi_dict):
     register = instruction[1:len(instruction):1]

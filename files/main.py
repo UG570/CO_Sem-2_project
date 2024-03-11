@@ -32,7 +32,3 @@ with open("output.txt", "w") as f:
         elif i[0] in s_instruct:
             f.writeline(s_type(i))
 
-    for i in range(len(lines)):
-        print(lines[i])
-        print(labelAdd)
-        f.write(InstructionToBinary(lines[i], i))

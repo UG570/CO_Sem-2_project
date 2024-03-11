@@ -1,7 +1,8 @@
+from dict import *
+from Assembler import *
 def ValidLabel(label):
-    #label is not instruction
-    # label not in() #fill with dictionary names
-    return True
+    if (label not in(r_instruct) and label not in (i_instruct) and label not in (u_instruct) and label not in (j_instruct) and label not in (b_instruct) and label not in (s_instruct)):
+        return True
 def InstructionToBinary(l,n):
     return " done \n" #import from assembler
 labelAdd = {}
@@ -17,7 +18,17 @@ with open("CO Project evaluation framework\CO Project evaluation framework\\auto
         lines[i] = temp
 
 with open("output.txt", "w") as f:
-    for i in range(len(lines)):
-        print(lines[i])
-        print(labelAdd)
-        f.write(InstructionToBinary(lines[i], i))
+    for i in lines:
+        if i[0] in r_instruct:
+            f.writeline(r_type(i))
+        elif i[0] in i_instruct:
+            f.writeline(i_type(i))
+        elif i[0] in u_instruct:
+            f.writeline(u_type(i))
+        elif i[0] in j_instruct:
+            f.writeline(j_type(i))
+        elif i[0] in b_instruct:
+            f.writeline(b_type(i))
+        elif i[0] in s_instruct:
+            f.writeline(s_type(i))
+

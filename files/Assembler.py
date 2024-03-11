@@ -67,8 +67,8 @@ def b_type(instruction, counter):
     opcode = "1100011"
     if instruction[3] not in labelAdd: 
         t = sextB(int(instruction[3]))
-        return t[0] + t[2:8] + regi_dict[register[1]] + regi_dict[register[0]] + b_instruct[instruct] + t[8:12] + t[1] + opcode
+        return t[0] + t[2:8] + regi_dict[register[1]] + regi_dict[instruction[1]] + b_instruct[instruction[0]] + t[8:12] + t[1] + opcode
     else:
         t = sextB((counter-labeladd[register[2]])*4)
-        return t[0] + t[2:8] + regi_dict[register[1]] + regi_dict[register[0]] + b_instruct[instruct] + t[8:12] + t[1] + opcode
+        return t[0] + t[2:8] + regi_dict[instruction[2]] + regi_dict[instruction[1]] + b_instruct[instruction[0]] + t[8:12] + t[1] + opcode
 

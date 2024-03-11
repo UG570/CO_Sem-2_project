@@ -6,7 +6,7 @@ def ValidLabel(label):
 def InstructionToBinary(l,n):
     return " done \n" #import from assembler
 labelAdd = {}
-with open("CO_Sem-2_project\CO Project evaluation framework\CO Project evaluation framework\\automatedTesting\\tests\\assembly\simpleBin\\test1.txt", "r") as f:
+with open("CO_Sem-2_project\CO Project evaluation framework\CO Project evaluation framework\\automatedTesting\\tests\\assembly\simpleBin\\test3.txt", "r") as f:
     lines = f.readlines()
     for i in range(len(lines)):
         temp = lines[i].strip().split()

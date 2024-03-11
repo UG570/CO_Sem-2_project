@@ -21,7 +21,7 @@ def r_type(regi_dict,function3_r,function7_r,instruction,r_instruct):
 def utype(instruction,regi_dict,u_instruct):
     opcode=u_instruct[instruction[0]]
     t=sextU(int(instruction[2]))
-    return t+regi_dict[instruction[1]+opcode
+    return t+regi_dict[instruction[1]]+opcode
 def i_type(instruction, regi_dict,function3_i,i_instruct):
 
 

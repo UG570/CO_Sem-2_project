@@ -1,5 +1,7 @@
 #Assembler made in python
 # write functions for all types here
+from dict import *
+
 def sextRISB(n):
    binary_string = bin(n & ((1 << 12) - 1))[2:].zfill(12)
    return binary_string

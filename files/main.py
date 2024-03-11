@@ -18,6 +18,7 @@ with open("CO Project evaluation framework\CO Project evaluation framework\\auto
         lines[i] = temp
 
 with open("output.txt", "w") as f:
+    counter = 0
     for i in lines:
         if i[0] in r_instruct:
             f.writeline(r_type(i))
@@ -28,7 +29,8 @@ with open("output.txt", "w") as f:
         elif i[0] in j_instruct:
             f.writeline(j_type(i))
         elif i[0] in b_instruct:
-            f.writeline(b_type(i))
+            f.writeline(b_type(i, counter))
         elif i[0] in s_instruct:
             f.writeline(s_type(i))
+        counter += 1
 

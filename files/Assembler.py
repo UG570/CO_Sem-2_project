@@ -18,8 +18,8 @@ def sext_j(n):
     return bs
 
 def sext_u(n):
-    bs = bin(n & ((1 << 20) - 1))[2:].zfill(20)
-    return bs
+    bs = bin(n & ((1 << 32) - 1))[2:].zfill(32)
+    return bs[:20:]
 
 def sext_b(n):
     bs = bin(n & ((1 << 13) - 1))[2:].zfill(13)
@@ -53,19 +53,21 @@ def i_type(instruction, regi_dict,function3_i,i_instruct):
     imm= sext_i(int(instruction[3]))
     return imm+ regi_dict[instruction[2]] + function3_i[instruction[0]] + regi_dict[instruction[1]]+i_instruct[instruction[0]]
 
-def j_type(instruction):
-    register = instruction[1::]
-    t=sext_j(int(register[1]))
-    return t[0]+t[9:20]+t[9]+t[1:8]+regi_dict[register[0]]+"0010111"
+def j_type(instruction, counter, labelAdd):
+    if instruction[2] not in labelAdd:
+        imm=sext_j(int(instruction[2]))
+        return imm[0] + imm[10:20] + imm[-11] + imm[1:9] + regi_dict[instruction[1]] + "1101111"
+    else:
+        imm=sext_j(-4 * (counter - labelAdd[instruction[2]]))
+        return imm[0] + imm[10:20] + imm[-11] + imm[1:9] + regi_dict[instruction[1]] + "1101111"
 
 
 
 def b_type(instruction, counter, labelAdd):
-    opcode = "1100011"
     if instruction[3] not in labelAdd: 
         imm= sext_b(int(instruction[3]))
-        return imm[0] + imm[2:8] + regi_dict[instruction[2]] + regi_dict[instruction[1]] + "100" + imm[8:12] + imm[1] + b_instruct[instruction[0]]
+        return imm[0] + imm[2:8] + regi_dict[instruction[2]] + regi_dict[instruction[1]] + func3_b[instruction[0]] + imm[8:12] + imm[1] + b_instruct[instruction[0]]
     else:
-        imm = sext_b((counter-labelAdd[instruction[3]])*4)
-        return imm[0] + imm[2:8] + regi_dict[instruction[2]] + regi_dict[instruction[1]] + "100" + imm[8:12] + imm[1] + b_instruct[instruction[0]]
+        imm = sext_b(-(counter-labelAdd[instruction[3]])*4)
+        return imm[0] + imm[2:8] + regi_dict[instruction[2]] + regi_dict[instruction[1]] + func3_b[instruction[0]] + imm[8:12] + imm[1] + b_instruct[instruction[0]]
 

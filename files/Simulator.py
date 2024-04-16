@@ -138,7 +138,7 @@ def s_type_implementation(instruction , imm, rs1, rs2):
 def u_type_implementation(instruction , rd, immediate_value):
     global pc
     rd = register_index[rd]
-    imm=binaryToDec(immediate_value)<<12
+    imm=binaryToDec(immediate_value)
     
     if instruction == "auipc":
         register_values[rd] = imm + pc

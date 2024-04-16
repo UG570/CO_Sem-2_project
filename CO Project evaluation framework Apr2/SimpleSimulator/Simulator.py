@@ -6,7 +6,7 @@ register_index = {'00000': 0, '00001': 1, '00010': 2, '00011': 3, '00100': 4, '0
                     '10101': 21, '10110': 22, '10111': 23, '11000': 24, '11001': 25, '11010': 26, '11011': 27,
                     '11100': 28, '11101': 29, '11110': 30, '11111': 31}
 register_values = [0]*32
-
+register_values[2] = 256
 mem = {'0x00010000': 0, '0x00010004': 0, '0x00010008': 0, '0x0001000c': 0, '0x00010010': 0,
         '0x00010014': 0, '0x00010018': 0, '0x0001001c': 0, '0x00010020': 0, '0x00010024': 0,
         '0x00010028': 0, '0x0001002c': 0, '0x00010030': 0, '0x00010034': 0, '0x00010038': 0,
@@ -68,7 +68,7 @@ def s_type_splitting(str):
     # global instruction
     if str[-15:-12:1]== "010":
             instruction="sw"
-    s_type_implementation(instruction , str[::-25] + str[-12:-7:1], str[-20:-15:1], str[-25:-20:1])
+    s_type_implementation(instruction , str[:-25:1] + str[-12:-7:1], str[-20:-15:1], str[-25:-20:1])
 
 
 def b_type_splitting(str):
@@ -243,9 +243,9 @@ for i in mem:
     op = i + ':' + '0b' + twosComp32(mem[i])
     op_lines.append(op)
     
-with open(sys.argv[2], "w") as f:
-    f.writelines(op_lines)
-
-
+with open(sys.argv[2], "w") as o:
+    for i in op_lines:
+        o.write(i)
+        o.write("\n")
 
 

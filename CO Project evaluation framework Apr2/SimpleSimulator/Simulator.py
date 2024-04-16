@@ -29,7 +29,7 @@ def twosComp32(n):
 def r_type_splitting(str):
     # global instruction
     if str[-15:-12:1]== "000":
-        if str[0:7]== "0000000":
+        if str[-7::1]== "0000000":
             instruction="add"
         else:
             instruction = "sub"
@@ -53,7 +53,7 @@ def r_type_splitting(str):
 def i_type_splitting(str):
     # global instruction
     if str[-15:-12:1]== "000":
-        if str[0:7]== "0010011":
+        if str[-7::]== "0010011":
             instruction="addi"
         else:
             instruction = "jalr"
@@ -89,7 +89,7 @@ def b_type_splitting(str):
 
 
 def u_type_splitting(str):
-    if str[0:7]=="0110111":
+    if str[-7::1]=="0110111":
         instruction="lui"
     else:
         instruction="auipc"
@@ -97,8 +97,7 @@ def u_type_splitting(str):
 
 
 def j_type_splitting(str):
-    if str[0:7]=="1101111":
-        instruction="jal"
+    instruction="jal"
     j_type_implementation( instruction ,str[-21]+str[-11:-1]+str[-12]+str[-20:-12],str[-12:-7])
 
 
@@ -129,17 +128,17 @@ def r_type_implementation(instruction , rd, rs1, rs2):
 
 def s_type_implementation(instruction , imm, rs1, rs2):
     rs1 = register_index[rs1]
+    rs2 = register_index[rs2]
     imm = binaryToDec(imm)
     memory_address = "0x"+hex(register_values[rs1] + imm)[2::].zfill(8)
-    mem[memory_address] = rs2
+    mem[memory_address] = register_values[rs2]
 
 
 
 def u_type_implementation(instruction , rd, immediate_value):
     global pc
     rd = register_index[rd]
-    imm_val=binaryToDec(immediate_value)
-    imm=binaryToDec(imm)
+    imm=binaryToDec(immediate_value)
     
     if instruction == "auipc":
         register_values[rd] = imm + pc
@@ -180,35 +179,26 @@ def b_type_implementation(instruction , imm, rs1, rs2):
     if instruction=="beq":
         if register_values[rs1]==register_values[rs2]:
             pc=pc+imm_val
-        else:
-            pc=pc+4
 
     if instruction=="bne":
         if register_values[rs1]!=register_values[rs2]:
             pc=pc+imm_val
-        else:
-            pc=pc+4
+
     if instruction=="blt":
         if register_values[rs1]<register_values[rs2]:
             pc=pc+imm_val
-        else:
-            pc=pc+4
+
     if instruction=="bge":
         if register_values[rs1]>register_values[rs2]:
             pc=pc+imm_val
-        else:
-            pc=pc+4
+
     if instruction=="bltu":
         if unsigned(register_values[rs1])<unsigned(register_values[rs2]):
             pc=pc+imm_val
-        else:
-            pc=pc+4
+
     if instruction=="bgeu":
         if unsigned(register_values[rs1])>unsigned(register_values[rs2]):
             pc=pc+imm_val
-        else:
-            pc=pc+4
-
 
 
 
@@ -221,12 +211,14 @@ lines = [line.strip() for line in lines_with_newline]
 op_lines = []
 pc = 0
 while(True):
-    if(pc<0 or pc > (len(lines) - 1)*4):
+    if(pc<0 or pc > (len(lines) -1)*4):
         break
     line = lines[int(pc/4)]
+    if(line == "00000000000000000000000001100011"):
+        break
     if line[-7::1] == "0110011":
         r_type_splitting(line)
-    elif line[-7::1] in ["0000011", "0010011", "0011011", "0100011"]:
+    elif line[-7::1] in ["0000011", "0010011", "1100111"]:
         i_type_splitting(line)
     elif line[-7::1] == "0100011":
         s_type_splitting(line)
@@ -236,12 +228,16 @@ while(True):
         u_type_splitting(line)
     elif line[-7::1] == "1101111":
         j_type_splitting(line)
-
     pc+=4
     op = "0b"+twosComp32(pc)
     for i in register_values:
         op = op + " 0b" + twosComp32(i)
     op_lines.append(op)
+
+op = "0b"+twosComp32(pc)
+for i in register_values:
+    op = op + " 0b" + twosComp32(i)
+op_lines.append(op)
 
 for i in mem:
     op = i + ':' + '0b' + twosComp32(mem[i])
@@ -249,7 +245,6 @@ for i in mem:
     
 with open(sys.argv[2], "w") as f:
     f.writelines(op_lines)
-
 
 
 

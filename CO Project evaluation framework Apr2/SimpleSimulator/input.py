@@ -146,8 +146,11 @@ with open(
 
 lines = [line.strip() for line in lines_with_newline]
 
-
-for line in lines:
+pc = 0
+while(True):
+    if(pc<0 or pc > (len(lines) - 1)/4):
+        break
+    line = lines[pc/4]
     if line[-7::1] == "0110011":
         r_type_splitting(line)
     elif line[-7::1] in ["0000011", "0010011", "0011011", "0100011"]:
@@ -155,6 +158,7 @@ for line in lines:
     elif line[-7::1] == "0100011":
         s_type_splitting(line)
     elif line[-7::1] == "1100011":
+        #please use global pc here
         b_type_splitting(line)
     elif line[-7::1] in ["0110111", "0010111"]:
         u_type_splitting(line)

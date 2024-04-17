@@ -1,4 +1,3 @@
-
 register_index = {'00000': 0, '00001': 1, '00010': 2, '00011': 3, '00100': 4, '00101': 5, '00110': 6,
                     '00111': 7, '01000': 8, '01001': 9, '01010': 10, '01011': 11, '01100': 12, '01101': 13,
                     '01110': 14, '01111': 15, '10000': 16, '10001': 17, '10010': 18, '10011': 19, '10100': 20,
@@ -6,8 +5,22 @@ register_index = {'00000': 0, '00001': 1, '00010': 2, '00011': 3, '00100': 4, '0
                     '11100': 28, '11101': 29, '11110': 30, '11111': 31}
 register_values = [0]*32
 
+mem = {'0x00010000': 0, '0x00010004': 0, '0x00010008': 0, '0x0001000c': 0, '0x00010010': 0,
+        '0x00010014': 0, '0x00010018': 0, '0x0001001c': 0, '0x00010020': 0, '0x00010024': 0,
+        '0x00010028': 0, '0x0001002c': 0, '0x00010030': 0, '0x00010034': 0, '0x00010038': 0,
+        '0x0001003c': 0, '0x00010040': 0, '0x00010044': 0, '0x00010048': 0, '0x0001004c': 0,
+        '0x00010050': 0, '0x00010054': 0, '0x00010058': 0, '0x0001005c': 0, '0x00010060': 0,
+        '0x00010064': 0, '0x00010068': 0, '0x0001006c': 0, '0x00010070': 0, '0x00010074': 0,
+        '0x00010078': 0, '0x0001007c': 0}
 def unsigned(num):
     return ((num + 2**32) & 0b11111111111111111111111111111111)
+
+def binaryToDec(string):
+    dec = int(string, 2)
+    if string[0] == '1':
+        dec -= 1 << len(string)
+    return dec
+
 def r_type_splitting(str):
     # global instruction
     if str[-15:-12:1]== "000":
@@ -50,7 +63,7 @@ def s_type_splitting(str):
     # global instruction
     if str[-15:-12:1]== "010":
             instruction="sw"
-    s_type_implementation(instruction ,str[-12:-7:1], str[-20:-15:1], str[-25:-20:1])
+    s_type_implementation(instruction , str[::-25] + str[-12:-7:1], str[-20:-15:1], str[-25:-20:1])
 
 
 def b_type_splitting(str):
@@ -108,19 +121,17 @@ def r_type_implementation(instruction , rd, rs1, rs2):
     elif instruction == "and":
         register_values[rd] = register_values[rs1] & register_values[rs2]
 
+def s_type_implementation(instruction , imm, rs1, rs2):
+    rs1 = register_index[rs1]
+    imm = binaryToDec(imm)
+    memory_address = "0x"+hex(register_values[rs1] + imm)[2::].zfill(8)
+    mem[memory_address] = rs2
 
-
-def binaryToDec(string):
-    dec = int(string, 2)
-    if string[0] == '1':
-        dec -= 1 << len(string)
-    return dec
 
 
 def u_type_implementation(instruction , rd, pc, immediate_value):
     rd = register_index[rd]
     imm_val=binaryToDec(immediate_value)
-    
     
     if instruction == "auipc":
         register_values[rd] = imm_val + pc

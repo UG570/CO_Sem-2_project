@@ -108,6 +108,25 @@ def r_type_implementation(instruction , rd, rs1, rs2):
     elif instruction == "and":
         register_values[rd] = register_values[rs1] & register_values[rs2]
 
+
+
+def binaryToDec(string):
+    dec = int(string, 2)
+    if string[0] == '1':
+        dec -= 1 << len(string)
+    return dec
+
+
+def u_type_implementation(instruction , rd, pc, immediate_value):
+    rd = register_index[rd]
+    imm_val=binaryToDec(immediate_value)
+    
+    
+    if instruction == "auipc":
+        register_values[rd] = imm_val + pc
+    elif instruction == "lui":
+        register_values[rd] = imm_val
+
 with open(
         "CO_Sem-2_project\CO Project evaluation framework\CO Project evaluation framework\\automatedTesting\\tests\\assembly\simpleBin\\test1.txt",
         "r") as f:

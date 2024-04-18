@@ -147,7 +147,6 @@ def u_type_implementation(instruction , rd, immediate_value):
         register_values[rd] = imm
 
 
-# global_var=pc
 def i_type_implementation(instruction, rd, rs1, imm):
     rd = register_index[rd]
     rs1 = register_index[rs1]
@@ -231,7 +230,6 @@ while(True):
     elif line[-7::1] == "0100011":
         s_type_splitting(line)
     elif line[-7::1] == "1100011":
-        #please use global pc here
         b_type_splitting(line)
     elif line[-7::1] in ["0110111", "0010111"]:
         u_type_splitting(line)

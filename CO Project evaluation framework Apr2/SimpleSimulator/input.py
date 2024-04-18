@@ -144,7 +144,7 @@ def u_type_implementation(instruction , rd, pc, immediate_value):
     elif instruction == "lui":
         register_values[rd] = imm
 
-with open(sys.arg[1], "r") as f:
+with open(sys.argv[1], "r") as f:
     lines_with_newline = f.readlines()
 
 

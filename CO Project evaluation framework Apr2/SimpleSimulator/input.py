@@ -1,3 +1,5 @@
+import sys
+
 register_index = {'00000': 0, '00001': 1, '00010': 2, '00011': 3, '00100': 4, '00101': 5, '00110': 6,
                     '00111': 7, '01000': 8, '01001': 9, '01010': 10, '01011': 11, '01100': 12, '01101': 13,
                     '01110': 14, '01111': 15, '10000': 16, '10001': 17, '10010': 18, '10011': 19, '10100': 20,
@@ -21,6 +23,9 @@ def binaryToDec(string):
         dec -= 1 << len(string)
     return dec
 
+def twosComp32(n):
+    return bin(unsigned(n))[2::].zfill(32)
+    
 def r_type_splitting(str):
     # global instruction
     if str[-15:-12:1]== "000":
@@ -138,14 +143,13 @@ def u_type_implementation(instruction , rd, pc, immediate_value):
     elif instruction == "lui":
         register_values[rd] = imm_val
 
-with open(
-        "CO_Sem-2_project\CO Project evaluation framework\CO Project evaluation framework\\automatedTesting\\tests\\assembly\simpleBin\\test1.txt",
-        "r") as f:
+with open(sys.arq[1], "r") as f:
     lines_with_newline = f.readlines()
 
 
 lines = [line.strip() for line in lines_with_newline]
 
+op_lines = []
 pc = 0
 while(True):
     if(pc<0 or pc > (len(lines) - 1)/4):
@@ -164,9 +168,19 @@ while(True):
         u_type_splitting(line)
     elif line[-7::1] == "1101111":
         j_type_splitting(line)
-    else:
-        continue
 
+    pc+=4
+    op = "0b"+twosComp32(pc)
+    for i in register_values:
+        op = op + " 0b" + twosComp32(i)
+    op_lines.append(op)
+
+for i in mem:
+    op = i + ':' + '0b' + twosComp32(mem[i])
+    op_lines.append(op)
+    
+with open(sys.argv[2], "w") as f:
+    f.writelines(op_lines)
 
 
 

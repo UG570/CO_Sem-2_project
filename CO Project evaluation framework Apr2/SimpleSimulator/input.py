@@ -221,7 +221,7 @@ lines = [line.strip() for line in lines_with_newline]
 op_lines = []
 pc = 0
 while(True):
-    if(pc<0 or pc > (len(lines) - 1)/4):
+    if(pc<0 or pc > (len(lines) - 1)*4):
         break
     line = lines[pc/4]
     if line[-7::1] == "0110011":

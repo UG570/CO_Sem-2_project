@@ -134,7 +134,8 @@ def s_type_implementation(instruction , imm, rs1, rs2):
 
 
 
-def u_type_implementation(instruction , rd, pc, immediate_value):
+def u_type_implementation(instruction , rd, immediate_value):
+    global pc
     rd = register_index[rd]
     imm_val=binaryToDec(immediate_value)
     

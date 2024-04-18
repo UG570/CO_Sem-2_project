@@ -136,12 +136,12 @@ def s_type_implementation(instruction , imm, rs1, rs2):
 
 def u_type_implementation(instruction , rd, pc, immediate_value):
     rd = register_index[rd]
-    imm_val=binaryToDec(imm)
+    imm=binaryToDec(imm)
     
     if instruction == "auipc":
-        register_values[rd] = imm_val + pc
+        register_values[rd] = imm + pc
     elif instruction == "lui":
-        register_values[rd] = imm_val
+        register_values[rd] = imm
 
 with open(sys.arq[1], "r") as f:
     lines_with_newline = f.readlines()

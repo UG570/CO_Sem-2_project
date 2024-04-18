@@ -145,21 +145,21 @@ def u_type_implementation(instruction , rd, pc, immediate_value):
         register_values[rd] = imm
 
 
-global_var=pc
+# global_var=pc
 def i_type_implementation(instruction, rd, rs1, imm):
     rd = register_index[rd]
     rs1 = register_index[rs1]
     imm = binaryToDec(imm)
 
-   if instruction=="lw":
-    memory_address = "0x"+hex(register_values[rs1] + imm)[2::].zfill(8)
-    register_values[rd] = mem[memory_address]
-   elif instruction==addi:
-        register_values[rd] = imm_val + register_values[rs1]
-   elif instruction==sltiu:
+    if instruction=="lw":
+        memory_address = "0x"+hex(register_values[rs1] + imm)[2::].zfill(8)
+        register_values[rd] = mem[memory_address]
+    elif instruction=="addi":
+        register_values[rd] = imm + register_values[rs1]
+    elif instruction=="sltiu":
         if(unsigned(register_values[rs1]) < unsigned(imm)):
             register_values[rd]=1
-   elif instruction=="jalr":
+    elif instruction=="jalr":
        register_values[rd] = pc + 4
        pc=register_values[rs1] + imm
 

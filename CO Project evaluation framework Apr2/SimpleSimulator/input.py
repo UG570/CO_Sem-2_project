@@ -61,7 +61,7 @@ def i_type_splitting(str):
         instruction = "lw"
     elif str[-15:-12:1]== "011":
         instruction = "sltiu"
-    i_type_implementation(instruction ,str[-12:-7:1], str[-20:-15:1], str[-25:-20:1])
+    i_type_implementation(instruction ,str[-12:-7:1], str[-20:-15:1], str[-32:-20])
 
 
 def s_type_splitting(str):
@@ -85,7 +85,7 @@ def b_type_splitting(str):
         instruction = "bltu"
     elif str[-15:-12:1]== "111":
         instruction = "bgeu"
-    b_type_implementation(instruction ,str[-12:-7:1], str[-20:-15:1], str[-25:-20:1])
+    b_type_implementation(instruction ,str[-12]+str[-11:-5], str[-20:-15:1], str[-25:-20:1])
 
 
 def u_type_splitting(str):
@@ -93,13 +93,14 @@ def u_type_splitting(str):
         instruction="lui"
     else:
         instruction="auipc"
-    u_type_implementation(instruction ,str[-12:-7:1], str[-20:-15:1], str[-25:-20:1])
+    u_type_implementation(instruction ,str[-12:-7:1],str[-32:-12])
 
 
 def j_type_splitting(str):
     if str[0:7]=="1101111":
         instruction="jal"
-    j_type_implementation(instruction ,str[-12:-7:1], str[-20:-15:1], str[-25:-20:1])
+    j_type_implementation( instruction ,str[-21]+str[-11:-1]+str[-12]+str[-20:-12],str[-12:-7])
+
 
 def r_type_implementation(instruction , rd, rs1, rs2):
     rd = register_index[rd]
@@ -134,7 +135,8 @@ def s_type_implementation(instruction , imm, rs1, rs2):
 
 
 
-def u_type_implementation(instruction , rd, pc, immediate_value):
+def u_type_implementation(instruction , rd, immediate_value):
+    global pc
     rd = register_index[rd]
     imm_val=binaryToDec(immediate_value)
     imm=binaryToDec(imm)
@@ -162,6 +164,53 @@ def i_type_implementation(instruction, rd, rs1, imm):
     elif instruction=="jalr":
        register_values[rd] = pc + 4
        pc=register_values[rs1] + imm
+def j_type_implementation(instruction, imm, rd):
+    global pc
+    r_d = register_index[rd]
+    imm_val = binaryToDec(imm)
+
+    if instruction=="jal":
+        register_values[r_d] = pc + 4
+        pc=pc+imm_val
+def b_type_implementation(instruction , imm, rs1, rs2):
+    global pc
+    rs1=register_index[rs1]
+    rs2=register_index[rs2]
+    imm_val=binaryToDec(imm)
+    if instruction=="beq":
+        if register_values[rs1]==register_values[rs2]:
+            pc=pc+imm_val
+        else:
+            pc=pc+4
+
+    if instruction=="bne":
+        if register_values[rs1]!=register_values[rs2]:
+            pc=pc+imm_val
+        else:
+            pc=pc+4
+    if instruction=="blt":
+        if register_values[rs1]<register_values[rs2]:
+            pc=pc+imm_val
+        else:
+            pc=pc+4
+    if instruction=="bge":
+        if register_values[rs1]>register_values[rs2]:
+            pc=pc+imm_val
+        else:
+            pc=pc+4
+    if instruction=="bltu":
+        if unsigned(register_values[rs1])<unsigned(register_values[rs2]):
+            pc=pc+imm_val
+        else:
+            pc=pc+4
+    if instruction=="bgeu":
+        if unsigned(register_values[rs1])>unsigned(register_values[rs2]):
+            pc=pc+imm_val
+        else:
+            pc=pc+4
+
+
+
 
 with open(sys.argv[1], "r") as f:
     lines_with_newline = f.readlines()

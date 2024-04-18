@@ -85,7 +85,7 @@ def b_type_splitting(str):
         instruction = "bltu"
     elif str[-15:-12:1]== "111":
         instruction = "bgeu"
-    b_type_implementation(instruction ,str[-12]+str[-11:-5], str[-20:-15:1], str[-25:-20:1])
+    b_type_implementation(instruction ,str[-32]+str[-8] + str[-31:-25:1] + str[-12:-8:1], str[-20:-15:1], str[-25:-20:1])
 
 
 def u_type_splitting(str):
@@ -98,7 +98,7 @@ def u_type_splitting(str):
 
 def j_type_splitting(str):
     instruction="jal"
-    j_type_implementation( instruction ,str[-21]+str[-11:-1]+str[-12]+str[-20:-12],str[-12:-7])
+    j_type_implementation( instruction ,str[-32]+str[-20:-12]+str[-21]+str[-31:-21],str[-12:-7])
 
 
 def r_type_implementation(instruction , rd, rs1, rs2):
@@ -163,6 +163,7 @@ def i_type_implementation(instruction, rd, rs1, imm):
     elif instruction=="jalr":
        register_values[rd] = pc + 4
        pc=register_values[rs1] + imm
+       pc-=4
 def j_type_implementation(instruction, imm, rd):
     global pc
     r_d = register_index[rd]
@@ -171,6 +172,7 @@ def j_type_implementation(instruction, imm, rd):
     if instruction=="jal":
         register_values[r_d] = pc + 4
         pc=pc+imm_val
+        pc-=4
 def b_type_implementation(instruction , imm, rs1, rs2):
     global pc
     rs1=register_index[rs1]
@@ -179,26 +181,32 @@ def b_type_implementation(instruction , imm, rs1, rs2):
     if instruction=="beq":
         if register_values[rs1]==register_values[rs2]:
             pc=pc+imm_val
+            
 
     if instruction=="bne":
         if register_values[rs1]!=register_values[rs2]:
             pc=pc+imm_val
+            
 
     if instruction=="blt":
         if register_values[rs1]<register_values[rs2]:
             pc=pc+imm_val
+            
 
     if instruction=="bge":
         if register_values[rs1]>register_values[rs2]:
             pc=pc+imm_val
+            
 
     if instruction=="bltu":
         if unsigned(register_values[rs1])<unsigned(register_values[rs2]):
             pc=pc+imm_val
+            
 
     if instruction=="bgeu":
         if unsigned(register_values[rs1])>unsigned(register_values[rs2]):
             pc=pc+imm_val
+            
 
 
 
@@ -214,6 +222,7 @@ while(True):
     if(pc<0 or pc > (len(lines) -1)*4):
         break
     line = lines[int(pc/4)]
+
     if(line == "00000000000000000000000001100011"):
         break
     if line[-7::1] == "0110011":

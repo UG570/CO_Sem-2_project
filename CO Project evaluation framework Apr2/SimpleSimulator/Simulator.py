@@ -148,6 +148,7 @@ def u_type_implementation(instruction , rd, immediate_value):
 
 
 def i_type_implementation(instruction, rd, rs1, imm):
+    global pc
     rd = register_index[rd]
     rs1 = register_index[rs1]
     imm = binaryToDec(imm)
@@ -222,7 +223,7 @@ pc = 0
 while(True):
     if(pc<0 or pc > (len(lines) - 1)*4):
         break
-    line = lines[pc/4]
+    line = lines[int(pc/4)]
     if line[-7::1] == "0110011":
         r_type_splitting(line)
     elif line[-7::1] in ["0000011", "0010011", "0011011", "0100011"]:

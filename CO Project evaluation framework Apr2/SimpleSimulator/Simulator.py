@@ -166,7 +166,7 @@ def i_type_implementation(instruction, rd, rs1, imm):
 def j_type_implementation(instruction, imm, rd):
     global pc
     r_d = register_index[rd]
-    imm_val = binaryToDec(imm)
+    imm_val = binaryToDec(imm)<<1
 
     if instruction=="jal":
         register_values[r_d] = pc + 4
@@ -175,7 +175,7 @@ def b_type_implementation(instruction , imm, rs1, rs2):
     global pc
     rs1=register_index[rs1]
     rs2=register_index[rs2]
-    imm_val=binaryToDec(imm)
+    imm_val=binaryToDec(imm)<<1
     if instruction=="beq":
         if register_values[rs1]==register_values[rs2]:
             pc=pc+imm_val
